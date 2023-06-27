@@ -354,7 +354,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         <Popup
           data-tid={TooltipDataTids.root}
           anchorElement={anchorElement}
-          hasPin
+          hasPin={false}
           hasShadow
           maxWidth="none"
           opened={this.state.opened}
