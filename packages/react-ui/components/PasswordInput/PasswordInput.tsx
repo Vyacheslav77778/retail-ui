@@ -17,6 +17,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -74,10 +75,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
 
     // @ts-expect-error: IE-specific API.
-    if (isIE11 && !window.document.msCapsLockWarningOff) {
+    if (isIE11 && !renderTarget.msCapsLockWarningOff) {
       // @ts-expect-error: Read the comment above.
       // turns off default ie capslock warning
-      window.document.msCapsLockWarningOff = true;
+      renderTarget.msCapsLockWarningOff = true;
     }
   }
 

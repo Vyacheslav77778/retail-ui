@@ -21,6 +21,7 @@ import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { UploadIcon as UploadIcon2022 } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
@@ -204,7 +205,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>();
 
   if (isBrowser) {
-    windowRef.current = window.document;
+    windowRef.current = renderTarget;
   }
 
   const focus = useCallback(() => {

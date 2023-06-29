@@ -15,6 +15,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat } from '../../lib/SSRSafe';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
@@ -431,7 +432,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.wheelEndTimeout) {
       clearTimeout(this.wheelEndTimeout);
     }
-    this.wheelEndTimeout = window.setTimeout(this.scrollToNearestWeek, 300);
+    //@ts-expect-error error
+    this.wheelEndTimeout = globalThat.setTimeout(this.scrollToNearestWeek, 300);
   };
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;

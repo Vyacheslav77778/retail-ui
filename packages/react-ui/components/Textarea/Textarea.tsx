@@ -19,6 +19,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -301,7 +302,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (document.activeElement !== this.node) {
+    if (renderTarget.activeElement !== this.node) {
       this.focus();
     }
 

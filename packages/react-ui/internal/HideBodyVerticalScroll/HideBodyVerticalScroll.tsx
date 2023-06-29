@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { css } from '../../lib/theming/Emotion';
+import { globalThat, renderTarget } from '../../lib/SSRSafe';
 
 let disposeDocumentStyle: (() => void) | null = null;
 
@@ -15,9 +16,9 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
       this.master = true;
-      this.initialScroll = document.documentElement ? document.documentElement.scrollTop : 0;
+      this.initialScroll = renderTarget.documentElement ? renderTarget.documentElement.scrollTop : 0;
       this.updateScrollVisibility();
-      window.addEventListener('resize', this.updateScrollVisibility);
+      globalThat.addEventListener('resize', this.updateScrollVisibility);
     }
   }
 
@@ -31,7 +32,7 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
       this.restoreStyles();
-      window.removeEventListener('resize', this.updateScrollVisibility);
+      globalThat.removeEventListener('resize', this.updateScrollVisibility);
     }
   }
 
@@ -40,7 +41,7 @@ export class HideBodyVerticalScroll extends React.Component {
   }
 
   private updateScrollVisibility = () => {
-    const { documentElement } = document;
+    const { documentElement } = renderTarget;
     if (!documentElement) {
       return;
     }
@@ -73,7 +74,7 @@ export class HideBodyVerticalScroll extends React.Component {
       disposeDocumentStyle();
       disposeDocumentStyle = null;
 
-      const { documentElement } = document;
+      const { documentElement } = renderTarget;
 
       if (documentElement) {
         documentElement.scrollTop = this.initialScroll;
@@ -84,17 +85,22 @@ export class HideBodyVerticalScroll extends React.Component {
 
 class VerticalScrollCounter {
   public static increment = (): number => {
-    const counter = window.RetailUIVerticalScrollCounter || 0;
-    return (window.RetailUIVerticalScrollCounter = counter + 1);
+    //@ts-expect-error error
+    const counter = globalThat.RetailUIVerticalScrollCounter || 0;
+    //@ts-expect-error error
+    return (globalThat.RetailUIVerticalScrollCounter = counter + 1);
   };
 
   public static decrement = (): number => {
-    const counter = window.RetailUIVerticalScrollCounter || 0;
-    return (window.RetailUIVerticalScrollCounter = counter - 1);
+    //@ts-expect-error error
+    const counter = globalThat.RetailUIVerticalScrollCounter || 0;
+    //@ts-expect-error error
+    return (globalThat.RetailUIVerticalScrollCounter = counter - 1);
   };
 
   public static get = (): number => {
-    return window.RetailUIVerticalScrollCounter || 0;
+    //@ts-expect-error error
+    return globalThat.RetailUIVerticalScrollCounter || 0;
   };
 }
 

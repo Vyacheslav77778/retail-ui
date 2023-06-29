@@ -19,6 +19,7 @@ import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { globalThat } from '../../lib/SSRSafe';
 
 import { styles } from './Tooltip.styles';
 
@@ -495,8 +496,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-
-    this.hoverTimeout = window.setTimeout(this.open, Tooltip.delay);
+    //@ts-expect-error error
+    this.hoverTimeout = globalThat.setTimeout(this.open, Tooltip.delay);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -513,7 +514,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = window.setTimeout(this.close, Tooltip.delay);
+      //@ts-expect-error error
+      this.hoverTimeout = globalThat.setTimeout(this.close, Tooltip.delay);
     }
   };
 

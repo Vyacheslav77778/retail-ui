@@ -37,6 +37,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -304,7 +305,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public componentDidMount() {
     this.updateInputTextWidth();
-    document.addEventListener('copy', this.handleCopy);
+    renderTarget.addEventListener('copy', this.handleCopy);
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -330,7 +331,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public componentWillUnmount() {
-    document.removeEventListener('copy', this.handleCopy);
+    renderTarget.removeEventListener('copy', this.handleCopy);
   }
 
   /**
@@ -649,7 +650,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
     if (this.menuRef) {
       const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
-      const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
+      const relatedTarget = (event.relatedTarget || renderTarget.activeElement) as HTMLElement;
 
       if (menu && menu.contains(relatedTarget)) {
         return true;

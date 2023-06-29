@@ -1,3 +1,4 @@
+import { renderTarget } from '../SSRSafe';
 import { canUseDOM } from '../client';
 
 enum MouseDragEventType {
@@ -19,7 +20,7 @@ const items: Map<HTMLElement, MouseDrag> = new Map();
 const documentHandleMouseUp: HandlerNative = (e) => items.forEach((mouseDrag) => mouseDrag.handleMouseUp(e));
 
 if (canUseDOM) {
-  document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
+  renderTarget.documentElement.addEventListener('mouseup', documentHandleMouseUp);
 }
 
 /**
@@ -161,7 +162,7 @@ export class MouseDrag {
       return new MouseEvent(type, e);
     }
     // <=IE11
-    const eIE11 = document.createEvent('MouseEvent');
+    const eIE11 = renderTarget.createEvent('MouseEvent');
     eIE11.initEvent(type, true, true);
     return eIE11;
   };

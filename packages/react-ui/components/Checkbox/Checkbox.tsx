@@ -14,6 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -123,13 +124,13 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       this.input.current.indeterminate = true;
     }
 
-    document.addEventListener('keydown', this.handleShiftPress);
-    document.addEventListener('keyup', this.handleShiftRelease);
+    renderTarget.addEventListener('keydown', this.handleShiftPress);
+    renderTarget.addEventListener('keyup', this.handleShiftRelease);
   };
 
   public componentWillUnmount = () => {
-    document.removeEventListener('keydown', this.handleShiftPress);
-    document.removeEventListener('keyup', this.handleShiftRelease);
+    renderTarget.removeEventListener('keydown', this.handleShiftPress);
+    renderTarget.removeEventListener('keyup', this.handleShiftRelease);
   };
 
   private setRootNode!: TSetRootNode;

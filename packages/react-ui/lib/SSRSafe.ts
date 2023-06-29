@@ -1,6 +1,7 @@
 import * as PropTypes from 'prop-types';
 
 import { isBrowser } from './client';
+import { Upgrade } from './Upgrades';
 
 export function safePropTypesInstanceOf<T>(
   getExpectedClass: () => new (...args: any[]) => T,
@@ -38,12 +39,16 @@ export function isNode(node: unknown): node is Node {
 
 export function matchMediaSSRSafe(mediaQuery: string) {
   if (isBrowser) {
-    return window.matchMedia(mediaQuery);
+    return globalThat.matchMedia(mediaQuery);
   }
 }
 
+const _window = Upgrade.getWindow() || window;
+
 export const globalThat: typeof globalThis =
+  (typeof _window === 'object' && _window) ||
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||
-  (typeof window === 'object' && window) ||
   Function('return this')();
+
+export const renderTarget: Document = Upgrade.getDocument() || globalThat.document || document;

@@ -1,5 +1,7 @@
 import { tabbable, FocusableElement, isFocusable } from 'tabbable';
 
+import { renderTarget } from '../SSRSafe';
+
 /**
  * Поиск всех элементов, у которых tabindex > -1, в переданном родителе
  * или на всей странице
@@ -8,7 +10,7 @@ import { tabbable, FocusableElement, isFocusable } from 'tabbable';
  * @return {FocusableElement[]} - Массив найденных элементов
  */
 
-export const getTabbableElements = (parent: Element | Document | null = document): FocusableElement[] => {
+export const getTabbableElements = (parent: Element | Document | null = renderTarget): FocusableElement[] => {
   if (!parent || !parent.children.length || !(parent instanceof Element)) {
     return [];
   }

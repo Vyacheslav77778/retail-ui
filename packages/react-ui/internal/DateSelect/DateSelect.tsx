@@ -20,6 +20,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
+import { globalThat } from '../../lib/SSRSafe';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
@@ -126,7 +127,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   public componentDidMount() {
     this.listener = LayoutEvents.addListener(this.setNodeTop);
     this.setNodeTop();
-    window.addEventListener('keydown', this.handleKey);
+    globalThat.addEventListener('keydown', this.handleKey);
   }
 
   public componentWillUnmount() {
@@ -142,7 +143,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     if (this.setPositionRepeatTimer) {
       clearTimeout(this.setPositionRepeatTimer);
     }
-    window.removeEventListener('keydown', this.handleKey);
+    globalThat.removeEventListener('keydown', this.handleKey);
   }
 
   /**

@@ -5,6 +5,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat, renderTarget } from '../../lib/SSRSafe';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -84,9 +85,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     }
 
     this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside);
-    window.addEventListener('blur', this.handleFocusOutside);
-    document.addEventListener(
-      'ontouchstart' in document.documentElement && 'onpointerup' in document.documentElement
+    globalThat.addEventListener('blur', this.handleFocusOutside);
+    renderTarget.addEventListener(
+      'ontouchstart' in renderTarget.documentElement && 'onpointerup' in renderTarget.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -99,9 +100,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    window.removeEventListener('blur', this.handleFocusOutside);
-    document.removeEventListener(
-      'ontouchstart' in document.documentElement && 'onpointerup' in document.documentElement
+    globalThat.removeEventListener('blur', this.handleFocusOutside);
+    renderTarget.removeEventListener(
+      'ontouchstart' in renderTarget.documentElement && 'onpointerup' in renderTarget.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,

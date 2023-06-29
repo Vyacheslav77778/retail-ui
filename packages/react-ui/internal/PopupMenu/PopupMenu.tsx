@@ -17,6 +17,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
@@ -293,8 +294,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   };
 
   private saveFocus = (): void => {
-    if (document) {
-      this.savedFocusableElement = document.activeElement as HTMLElement;
+    if (renderTarget) {
+      this.savedFocusableElement = renderTarget.activeElement as HTMLElement;
     }
   };
 

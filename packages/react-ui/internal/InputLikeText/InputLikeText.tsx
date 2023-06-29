@@ -22,6 +22,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -108,7 +109,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.dragging || !node) {
       return;
     }
-    if (isIE11 && findRenderContainer(node, document.body)) {
+    if (isIE11 && findRenderContainer(node, renderTarget.body)) {
       // Code below causes Popup to close after triggering the focus event on the body in IE11
       return;
     }
@@ -128,8 +129,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.node) {
       MouseDrag.listen(this.node).onMouseDragStart(this.handleMouseDragStart).onMouseDragEnd(this.handleMouseDragEnd);
     }
-    document.addEventListener('mousedown', this.handleDocumentMouseDown);
-    document.addEventListener('keydown', this.handleDocumentKeyDown);
+    renderTarget.addEventListener('mousedown', this.handleDocumentMouseDown);
+    renderTarget.addEventListener('keydown', this.handleDocumentKeyDown);
   }
 
   public componentWillUnmount() {
@@ -137,8 +138,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       clearTimeout(this.blinkTimeout);
     }
     MouseDrag.stop(this.node);
-    document.removeEventListener('mousedown', this.handleDocumentMouseDown);
-    document.removeEventListener('keydown', this.handleDocumentKeyDown);
+    renderTarget.removeEventListener('mousedown', this.handleDocumentMouseDown);
+    renderTarget.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
   public render() {
@@ -418,7 +419,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDragStart: MouseDragEventHandler = (e) => {
     this.dragging = true;
-    document.documentElement.classList.add(styles.userSelectNone());
+    renderTarget.documentElement.classList.add(styles.userSelectNone());
 
     if (this.props.onMouseDragStart) {
       this.props.onMouseDragStart(e);
@@ -435,7 +436,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       }
     }, 0);
 
-    document.documentElement.classList.remove(styles.userSelectNone());
+    renderTarget.documentElement.classList.remove(styles.userSelectNone());
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
@@ -445,7 +446,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     if (this.props.disabled) {
       if (isIE11) {
-        selectNodeContents(document.body, 0, 0);
+        selectNodeContents(renderTarget.body, 0, 0);
       }
       return;
     }

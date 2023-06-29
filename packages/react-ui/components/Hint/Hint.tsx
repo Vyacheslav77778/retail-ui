@@ -12,6 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { globalThat } from '../../lib/SSRSafe';
 
 import { styles } from './Hint.styles';
 
@@ -217,7 +218,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseEnter = (e: MouseEventType) => {
     if (!this.getProps().manual && !this.timer) {
-      this.timer = window.setTimeout(this.open, 400);
+      //@ts-expect-error error
+      this.timer = globalThat.setTimeout(this.open, 400);
     }
 
     if (this.props.onMouseEnter) {

@@ -15,6 +15,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InternalMenuProps } from '../InternalMenu';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
+import { globalThat } from '../../lib/SSRSafe';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -249,7 +250,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
-          window.open(item.props.href, item.props.target);
+          globalThat.open(item.props.href, item.props.target);
         } else {
           location.href = item.props.href;
         }

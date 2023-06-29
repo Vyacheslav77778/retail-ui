@@ -1,8 +1,9 @@
+import { renderTarget } from './SSRSafe';
 import { canUseDOM, isIE11 } from './client';
 
 const needsPolyfillPlaceholderInternal = () => {
   if (canUseDOM) {
-    const supportsPlaceholder = 'placeholder' in document.createElement('input');
+    const supportsPlaceholder = 'placeholder' in renderTarget.createElement('input');
     if (!supportsPlaceholder || isIE11) {
       return true;
     }

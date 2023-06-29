@@ -9,6 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { CommonProps } from '../CommonWrapper';
+import { globalThat, renderTarget } from '../../lib/SSRSafe';
 
 import { styles } from './DropdownContainer.styles';
 import { getManualPosition, getTopAlignment } from './getManualPosition';
@@ -126,14 +127,14 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
     if (target && this.isElement(target) && dom) {
       const targetRect = getDOMRect(target);
-      const { body, documentElement: docEl } = document;
+      const { body, documentElement: docEl } = renderTarget;
 
       if (!docEl) {
         throw Error('There is no "documentElement" in "document"');
       }
 
-      const scrollX = window.pageXOffset || docEl.scrollLeft || 0;
-      const scrollY = window.pageYOffset || docEl.scrollTop || 0;
+      const scrollX = globalThat.pageXOffset || docEl.scrollLeft || 0;
+      const scrollY = globalThat.pageYOffset || docEl.scrollTop || 0;
 
       let left = null;
       let right = null;
@@ -210,7 +211,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 }
 
 const getIsDocumentElementRoot = () => {
-  const { body, documentElement } = document;
+  const { body, documentElement } = renderTarget;
   const htmlPosition = getComputedStyle(documentElement).position;
   const bodyPosition = getComputedStyle(body).position;
 

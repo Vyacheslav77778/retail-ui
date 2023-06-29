@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { isHTMLElement } from '../../lib/SSRSafe';
+import { globalThat, isHTMLElement } from '../../lib/SSRSafe';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -274,8 +274,8 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && rootNode) {
-      const rootElementMaxHeight = window.getComputedStyle(rootNode).maxHeight;
+    if (typeof maxHeight === 'string' && typeof globalThat !== 'undefined' && rootNode) {
+      const rootElementMaxHeight = globalThat.getComputedStyle(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -338,7 +338,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
-          window.open(item.props.href, item.props.target);
+          globalThat.open(item.props.href, item.props.target);
         } else {
           location.href = item.props.href;
         }

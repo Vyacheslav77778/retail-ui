@@ -15,6 +15,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { renderTarget } from '../../lib/SSRSafe';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -472,13 +473,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    document.addEventListener('keydown', this.handleKeyDown);
+    renderTarget.addEventListener('keydown', this.handleKeyDown);
     this.addedGlobalListener = true;
   };
 
   private removeGlobalListener = () => {
     if (this.addedGlobalListener) {
-      document.removeEventListener('keydown', this.handleKeyDown);
+      renderTarget.removeEventListener('keydown', this.handleKeyDown);
 
       this.addedGlobalListener = false;
     }
