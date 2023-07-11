@@ -133,7 +133,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
-          popupHasPin
+          popupHasPin={false}
           preventIconsOffset={this.props.preventIconsOffset}
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}

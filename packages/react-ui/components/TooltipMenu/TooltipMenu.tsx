@@ -132,7 +132,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
           positions={this.props.positions}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
-          popupHasPin
+          popupHasPin={false}
           disableAnimations={disableAnimations}
         >
           {this.props.children}
