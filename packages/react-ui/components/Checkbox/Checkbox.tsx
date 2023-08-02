@@ -14,7 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { renderTarget } from '../../lib/SSRSafe';
+import { globalThat, renderTarget } from '../../lib/SSRSafe';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -302,7 +302,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
+      globalThat.requestAnimationFrame(() => {
         if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

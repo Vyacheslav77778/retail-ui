@@ -15,7 +15,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { renderTarget } from '../../lib/SSRSafe';
+import { globalThat, renderTarget } from '../../lib/SSRSafe';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -373,7 +373,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }

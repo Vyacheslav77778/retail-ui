@@ -230,7 +230,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   private handleFocus = () => {
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }

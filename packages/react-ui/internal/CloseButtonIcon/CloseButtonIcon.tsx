@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../CommonWrapper';
+import { globalThat } from '../../lib/SSRSafe';
 
 import { styles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
@@ -65,7 +66,7 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   const handleFocus = () => {
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed) {
         setFocusedByTab(true);
       }

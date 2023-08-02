@@ -37,7 +37,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
-import { renderTarget } from '../../lib/SSRSafe';
+import { globalThat, renderTarget } from '../../lib/SSRSafe';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -581,7 +581,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input?.focus();
       // в firefox не работает без второго focus
-      requestAnimationFrame(() => this.input?.focus());
+      globalThat.requestAnimationFrame(() => this.input?.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -823,7 +823,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    requestAnimationFrame(() => this.input?.focus());
+    globalThat.requestAnimationFrame(() => this.input?.focus());
   };
 
   private selectInputText = () => {

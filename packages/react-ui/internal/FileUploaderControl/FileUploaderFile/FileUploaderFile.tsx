@@ -15,6 +15,7 @@ import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { FileUploaderSize } from '../../../components/FileUploader';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
+import { globalThat } from '../../../lib/SSRSafe';
 
 import { jsStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
@@ -144,7 +145,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const handleFocus = useCallback(() => {
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    requestAnimationFrame(() => {
+    globalThat.requestAnimationFrame(() => {
       if (keyListener.isTabPressed) {
         setFocusedByTab(true);
       }
