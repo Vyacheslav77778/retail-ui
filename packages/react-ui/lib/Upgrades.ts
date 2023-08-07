@@ -6,10 +6,10 @@ let canModifySpecificityLevel = true;
 let specificityClassName = 'react-ui';
 let canModifySpecificityClassName = true;
 
-let _document: Document;
+let _document: Document | undefined;
 let canModifyDocument = true;
 
-let _window: Window;
+let _window: Window | undefined;
 let canModifyWindow = true;
 
 //TODO Delete Upgrade in major release if it still doesn't work (https://tech.skbkontur.ru/react-ui/#/Migration)

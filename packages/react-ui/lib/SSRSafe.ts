@@ -43,12 +43,11 @@ export function matchMediaSSRSafe(mediaQuery: string) {
   }
 }
 
-const _window = Upgrade.getWindow() || window;
-
 export const globalThat: typeof globalThis =
-  (typeof _window === 'object' && _window) ||
+  Upgrade.getWindow() ||
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||
+  (typeof window === 'object' && window) ||
   Function('return this')();
 
-export const renderTarget: Document = Upgrade.getDocument() || globalThat.document || document;
+export const renderTarget: Document = Upgrade.getDocument() || globalThat.document;

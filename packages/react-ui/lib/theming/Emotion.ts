@@ -16,7 +16,7 @@ export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, key
     key: REACT_UI_PREFIX,
     prepend: true,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
-    container: renderTarget.head,
+    container: renderTarget?.head,
   });
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {
