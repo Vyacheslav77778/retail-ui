@@ -15,7 +15,7 @@ export function safePropTypesInstanceOf<T>(
 
 export function isElement(el: unknown): el is Element {
   if (isBrowser) {
-    return el instanceof Element;
+    return el instanceof globalThat['Element'];
   }
 
   return false;
@@ -23,7 +23,15 @@ export function isElement(el: unknown): el is Element {
 
 export function isHTMLElement(el: unknown): el is HTMLElement {
   if (isBrowser) {
-    return el instanceof HTMLElement;
+    return el instanceof globalThat['HTMLElement'];
+  }
+
+  return false;
+}
+
+export function isHTMLInputElement(el: unknown): el is HTMLInputElement {
+  if (isBrowser) {
+    return el instanceof globalThat['HTMLInputElement'];
   }
 
   return false;
@@ -31,7 +39,39 @@ export function isHTMLElement(el: unknown): el is HTMLElement {
 
 export function isNode(node: unknown): node is Node {
   if (isBrowser) {
-    return node instanceof Node;
+    return node instanceof globalThat['Node'];
+  }
+
+  return false;
+}
+
+export function isTouchEvent(node: unknown): node is TouchEvent {
+  if (isBrowser) {
+    return node instanceof globalThat['TouchEvent'];
+  }
+
+  return false;
+}
+
+export function isWheelEvent(node: unknown): node is WheelEvent {
+  if (isBrowser) {
+    return node instanceof globalThat['WheelEvent'];
+  }
+
+  return false;
+}
+
+export function isMouseEvent(node: unknown): node is MouseEvent {
+  if (isBrowser) {
+    return node instanceof globalThat['MouseEvent'];
+  }
+
+  return false;
+}
+
+export function isKeyboardEvent(node: unknown): node is KeyboardEvent {
+  if (isBrowser) {
+    return node instanceof globalThat['KeyboardEvent'];
   }
 
   return false;

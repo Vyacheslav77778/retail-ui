@@ -15,7 +15,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat } from '../../lib/SSRSafe';
+import { globalThat, isTouchEvent, isWheelEvent } from '../../lib/SSRSafe';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
@@ -395,7 +395,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 
@@ -404,7 +404,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 
@@ -419,7 +419,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private throttledHandleTouchMove = throttle(this.handleTouchMove, 10);
 
   private handleWheel = (event: Event) => {
-    if (!(event instanceof WheelEvent)) {
+    if (!isWheelEvent(event)) {
       return;
     }
     event.preventDefault();

@@ -20,7 +20,7 @@ import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import { ArrowCUpIcon16Regular } from '../icons2022/ArrowCUpIcon/ArrowCUpIcon16Regular';
 import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
-import { globalThat } from '../../lib/SSRSafe';
+import { globalThat, isTouchEvent, isWheelEvent } from '../../lib/SSRSafe';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
@@ -431,7 +431,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private getAnchor = () => this.root;
 
   private handleWheel = (event: Event) => {
-    if (!(event instanceof WheelEvent)) {
+    if (!isWheelEvent(event)) {
       return;
     }
     event.preventDefault();
@@ -448,7 +448,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 
@@ -456,7 +456,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
+    if (!isTouchEvent(event)) {
       return;
     }
 

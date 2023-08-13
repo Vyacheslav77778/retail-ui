@@ -18,6 +18,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { globalThat, renderTarget } from '../../lib/SSRSafe';
+import { isFunction } from '../../lib/utils';
 
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
@@ -500,7 +501,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return null;
     }
     const { disabled } = this.props;
-    const iconNode = icon instanceof Function ? icon() : icon;
+    const iconNode = isFunction(icon) ? icon() : icon;
 
     return (
       <span

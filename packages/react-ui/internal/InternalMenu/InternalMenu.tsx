@@ -326,7 +326,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuProps, MenuSta
     if (this.scrollContainer && this.highlighted) {
       const rootNode = getRootNode(this.highlighted);
       // TODO: Remove this check once IF-647 is resolved
-      if (rootNode instanceof HTMLElement) {
+      if (isHTMLElement(rootNode)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }

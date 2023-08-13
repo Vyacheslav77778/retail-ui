@@ -15,7 +15,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InternalMenuProps } from '../InternalMenu';
 import { isIconPaddingEnabled } from '../InternalMenu/isIconPaddingEnabled';
-import { globalThat } from '../../lib/SSRSafe';
+import { globalThat, isHTMLElement } from '../../lib/SSRSafe';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -227,7 +227,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     if (this.scrollContainer && this.highlighted) {
       const rootNode = getRootNode(this.highlighted);
       // TODO: Remove this check once IF-647 is resolved
-      if (rootNode instanceof HTMLElement) {
+      if (isHTMLElement(rootNode)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }

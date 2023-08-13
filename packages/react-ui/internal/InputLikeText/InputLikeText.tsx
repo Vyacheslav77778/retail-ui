@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
-import { isNonNullable } from '../../lib/utils';
+import { isFunction, isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
@@ -22,7 +22,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
-import { renderTarget } from '../../lib/SSRSafe';
+import { isNode, renderTarget } from '../../lib/SSRSafe';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -284,7 +284,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     const { disabled } = this.props;
-    const iconNode = icon instanceof Function ? icon() : icon;
+    const iconNode = isFunction(icon) ? icon() : icon;
 
     return (
       <span
@@ -378,7 +378,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleDocumentMouseDown = (e: MouseEvent) => {
-    if (this.state.focused && this.node && e.target instanceof Node && !this.node.contains(e.target)) {
+    if (this.state.focused && this.node && isNode(e.target) && !this.node.contains(e.target)) {
       this.defrost();
     }
   };

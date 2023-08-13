@@ -3,7 +3,7 @@ import React from 'react';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { renderTarget } from '../../lib/SSRSafe';
+import { isElement, renderTarget } from '../../lib/SSRSafe';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
@@ -78,7 +78,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     const target = event.target || event.srcElement;
     const node = getRootNode(this);
 
-    if (node && target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
+    if (node && isElement(target) && containsTargetOrRenderContainer(target)(node)) {
       return;
     }
 

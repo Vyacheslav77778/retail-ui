@@ -18,7 +18,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, renderTarget } from '../../lib/SSRSafe';
+import { globalThat, isMouseEvent, renderTarget } from '../../lib/SSRSafe';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -331,7 +331,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private handleClickOutside = (e: Event) => {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       // ignore mousedown on window scrollbar
-      if (e instanceof MouseEvent && e.clientX > renderTarget.documentElement.clientWidth) {
+      if (isMouseEvent(e) && e.clientX > renderTarget.documentElement.clientWidth) {
         return;
       }
       this.requestClose();

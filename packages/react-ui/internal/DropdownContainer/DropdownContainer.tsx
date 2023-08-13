@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { CommonProps } from '../CommonWrapper';
-import { globalThat, renderTarget } from '../../lib/SSRSafe';
+import { globalThat, isElement, renderTarget } from '../../lib/SSRSafe';
 
 import { styles } from './DropdownContainer.styles';
 import { getManualPosition, getTopAlignment } from './getManualPosition';
@@ -117,15 +117,11 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     this.dom = element;
   };
 
-  private isElement = (node: Nullable<Element>): node is Element => {
-    return node instanceof Element;
-  };
-
   public position = () => {
     const target = this.props.getParent();
     const dom = this.dom;
 
-    if (target && this.isElement(target) && dom) {
+    if (target && isElement(target) && dom) {
       const targetRect = getDOMRect(target);
       const { body, documentElement: docEl } = renderTarget;
 
@@ -175,7 +171,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
   };
 
   private getHeight = () => {
-    if (!this.isElement(this.dom)) {
+    if (!isElement(this.dom)) {
       return 0;
     }
     const child = this.dom.children.item(0);
@@ -192,7 +188,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     const offsetX = this.getProps().offsetX || 0;
     const offsetY = this.getProps().offsetY || 0;
     const { top, bottom, left, right } = position;
-    if (target && this.isElement(target)) {
+    if (isElement(target)) {
       const targetHeight = getDOMRect(target).height;
       return {
         top: top !== null ? targetHeight + offsetY : null,

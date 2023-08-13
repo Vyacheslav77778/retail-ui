@@ -15,7 +15,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { globalThat, renderTarget } from '../../lib/SSRSafe';
+import { globalThat, isElement, renderTarget } from '../../lib/SSRSafe';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -333,7 +333,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const isArrowRight = isKeyArrowRight(e);
 
     if (
-      target instanceof Element &&
+      isElement(target) &&
       (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) || (target as HTMLElement).isContentEditable)
     ) {
       return;

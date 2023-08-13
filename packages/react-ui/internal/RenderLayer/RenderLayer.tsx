@@ -5,7 +5,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { globalThat, renderTarget } from '../../lib/SSRSafe';
+import { globalThat, isElement, renderTarget } from '../../lib/SSRSafe';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -119,7 +119,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (target instanceof Element && containsTargetOrRenderContainer(target)(node))) {
+    if (!node || (isElement(target) && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 

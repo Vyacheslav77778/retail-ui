@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import { isBrowser, isFirefox } from './client';
-import { globalThat, renderTarget } from './SSRSafe';
+import { globalThat, isElement, renderTarget } from './SSRSafe';
 
 interface FocusOutsideEventHandler {
   elements: Element[] | (() => Element[]);
@@ -76,7 +76,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     currentNode === rootNode ||
     currentNode === renderTarget.body ||
     currentNode === renderTarget.documentElement ||
-    !(currentNode instanceof Element)
+    !isElement(currentNode)
   ) {
     return container ? container : null;
   }
